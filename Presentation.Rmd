@@ -1,0 +1,63 @@
+---
+title: "Graphing the third degree polynomial"
+author: "Mihai Chiriac"
+date: "October 10, 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Summary
+
+"Graphing the third degree polynomial" is an application created in R using Shiny library for visualization of the third degree polynomial curve.
+The application accept as input the following parameters:
+
+- Number of points
+- Coeficients a, b, c and d for the f(x) = a*x^3 + b*x^2 + c*x + d
+- Confirmation for showing/hiding the title
+
+Choosing different coeficients modifies the curve shape.
+
+## Shiny architecture
+
+Shiny has to different components:
+
+- the client - runs in browser. It allows end user to input parameters, sends the information to server and renders the response.
+- the server - runs in Shiny server. It receives the request from the browser, processes it and returns the response back. 
+
+Usually a shiny application consists of two files:
+
+- ui.R for the client
+- server.R for the server
+
+## Preparing the dataset
+
+The presentation uses the same default values as ui.R
+
+```{r cars, echo = TRUE}
+  no_of_points <- 100
+  minX<- -7
+  maxX<- 7
+  a<- 1
+  b<- 2
+  c<- 3
+  d<- 4
+  seq_step = (maxX-minX) / no_of_points
+  dataX <- seq(minX, maxX, seq_step)
+  dataY <- a* dataX^3 - b*dataX^2 + c*dataX + d
+  func_title = paste("f(x) = ", 
+                paste("(", paste(a, paste(") * x^3 + (", 
+                paste(b, paste(") * x ^2 + (", 
+                paste(c, paste(") * x + (", paste(d,")")))))))))
+  main<-ifelse(TRUE, func_title,"")
+  
+```
+
+## Ploting the function
+
+```{r pressure}
+plot(dataX, dataY, xlab = "X", ylab = "Y", main = main, panel.first = grid())
+```
+
